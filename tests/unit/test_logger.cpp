@@ -37,13 +37,51 @@ private:
     std::streambuf *mOriginalBuffer;
 };
 
+// Fixture tests
+
+TEST_F(CTestLogger, FormatsDebugMessageCorrectly)
+{
+    cpp_logger::Logger logger;
+    logger.setLevel(cpp_logger::LogLevel::Debug);
+
+    logger.debug("Temperature is normal");
+    EXPECT_EQ(getCapturedStream(), "[DEBUG] Temperature is normal\n");
+}
+
+TEST_F(CTestLogger, FormatsInfoMessageCorrectly)
+{
+    cpp_logger::Logger logger;
+    logger.setLevel(cpp_logger::LogLevel::Debug);
+
+    logger.info("Temperature is increasing");
+    EXPECT_EQ(getCapturedStream(), "[INFO] Temperature is increasing\n");
+}
+
+TEST_F(CTestLogger, FormatsWarningMessageCorrectly)
+{
+    cpp_logger::Logger logger;
+    logger.setLevel(cpp_logger::LogLevel::Debug);
+
+    logger.warning("Temperature is high");
+    EXPECT_EQ(getCapturedStream(), "[WARNING] Temperature is high\n");
+}
+
+TEST_F(CTestLogger, FormatsErrorMessageCorrectly)
+{
+    cpp_logger::Logger logger;
+    logger.setLevel(cpp_logger::LogLevel::Debug);
+
+    logger.error("Temperature is very high");
+    EXPECT_EQ(getCapturedStream(), "[ERROR] Temperature is very high\n");
+}
+
 // Paremeterized test class
 class LoggerFilteringTest : public CTestLogger,
                             public testing::WithParamInterface<LogFilteringCase>
 {
 };
 
-// Tests
+// Parameterized tests
 
 TEST_P(LoggerFilteringTest, FilterLogLevel)
 {
