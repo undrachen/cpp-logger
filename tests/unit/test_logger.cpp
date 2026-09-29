@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <streambuf>
 #include <string>
@@ -45,7 +46,11 @@ TEST_F(CTestLogger, FormatsDebugMessageCorrectly)
     logger.setLevel(cpp_logger::LogLevel::Debug);
 
     logger.debug("Temperature is normal");
-    EXPECT_EQ(getCapturedStream(), "[DEBUG] Temperature is normal\n");
+
+    const std::string output = getCapturedStream();
+    const std::regex expectedFormat(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{4}\] \[DEBUG\] Temperature is normal\n)");
+
+    EXPECT_TRUE(std::regex_match(output, expectedFormat));
 }
 
 TEST_F(CTestLogger, FormatsInfoMessageCorrectly)
@@ -54,7 +59,11 @@ TEST_F(CTestLogger, FormatsInfoMessageCorrectly)
     logger.setLevel(cpp_logger::LogLevel::Debug);
 
     logger.info("Temperature is increasing");
-    EXPECT_EQ(getCapturedStream(), "[INFO] Temperature is increasing\n");
+
+    const std::string output = getCapturedStream();
+    const std::regex expectedFormat(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{4}\] \[INFO\] Temperature is increasing\n)");
+
+    EXPECT_TRUE(std::regex_match(output, expectedFormat));
 }
 
 TEST_F(CTestLogger, FormatsWarningMessageCorrectly)
@@ -63,7 +72,11 @@ TEST_F(CTestLogger, FormatsWarningMessageCorrectly)
     logger.setLevel(cpp_logger::LogLevel::Debug);
 
     logger.warning("Temperature is high");
-    EXPECT_EQ(getCapturedStream(), "[WARNING] Temperature is high\n");
+
+    const std::string output = getCapturedStream();
+    const std::regex expectedFormat(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{4}\] \[WARNING\] Temperature is high\n)");
+
+    EXPECT_TRUE(std::regex_match(output, expectedFormat));
 }
 
 TEST_F(CTestLogger, FormatsErrorMessageCorrectly)
@@ -72,7 +85,11 @@ TEST_F(CTestLogger, FormatsErrorMessageCorrectly)
     logger.setLevel(cpp_logger::LogLevel::Debug);
 
     logger.error("Temperature is very high");
-    EXPECT_EQ(getCapturedStream(), "[ERROR] Temperature is very high\n");
+
+    const std::string output = getCapturedStream();
+    const std::regex expectedFormat(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{4}\] \[ERROR\] Temperature is very high\n)");
+
+    EXPECT_TRUE(std::regex_match(output, expectedFormat));
 }
 
 // Paremeterized test class
